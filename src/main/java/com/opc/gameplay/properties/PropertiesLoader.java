@@ -12,7 +12,7 @@ import java.util.Properties;
 public class PropertiesLoader {
 	
 
-	  private final String propertiesFileName = "src/main/ressources/conf/app.properties";
+	  private final String propertiesFileName = "src/main/resources/app.properties";
 
 	  /**
 	   * Cette methode stoque le fichier Properties l'emplacement specifi
@@ -40,7 +40,7 @@ public class PropertiesLoader {
 	   * @throws FileNotFoundException si le fichier n'a pas �t� trouv�
 	   * @throws IOException si une erreur est survenue durant la lecture
 	   */
-	  private Properties loadProperties() throws FileNotFoundException, IOException {
+	public Properties loadProperties() throws FileNotFoundException, IOException {
 
 	    final Properties props = new Properties();
 
