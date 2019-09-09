@@ -35,36 +35,43 @@ public class Menu {
 	                break;
 	            case 2:
 	                System.out.println("Vous avez choisi Le mode de jeu : Defenseur");
+	                modeDeJeu.defenseur();
 	                break;
 	            case 3:
 	                System.out.println("Vous avez choisi Le mode de jeu  : Duel");
 	                break;
 	            default:
 	                System.out.println("Vous n'avez pas choisi de Mode de jeu");
+	                modeDeJeu = new Mode();
+	                modeDeJeu.rejouer();
 	                break;
 	        }
 	    }
 	    
 	    public void displayMenuFin() {
 	        //System.out.println("Sous Menu");
-	        System.out.println("Tapez X - Pour Quitter la partie");
-	        System.out.println("Tapez R - Pour Rejouer");
-	        System.out.println("Tapez M - Pour revenir au menu Principal");
+	        System.out.println("Tapez 5 - Pour Quitter la partie");
+	        System.out.println("Tapez 6 - Pour Rejouer");
+	        System.out.println("Tapez 7 - Pour revenir au menu Principal");
 	    		
 	       
 	    }
-	    public void displaySelectedMenuFin(String finMenu) {
+	    public void displaySelectedMenuFin(int finMenu, String mode) {
 	    	 switch (finMenu) {
-	            case "X":
+	            case 5:
 	                System.out.println("Vous avez choisi de partir");
 	                 modeDeJeu.quitter();
 	                break;
-	            case "R":
+	            case 6:
 	                System.out.println("Vous avez choisi de Rejouer");
-	                this.run();
+	                if(modeDeJeu.getModeName()=="chalenger") {
+	                	modeDeJeu.challenger();
+	                }else if (modeDeJeu.getModeName()=="defenseur") {
+	                	modeDeJeu.defenseur();
+	                }
 	                
 	                break;
-	            case "M":
+	            case 7:
 	                System.out.println("Vous avez choisi de revenir menu Principal");
 	                this.run();
 	                break;

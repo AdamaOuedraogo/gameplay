@@ -21,24 +21,26 @@ public class Mode {
 	public static int COMBINAISON = 0;
 	public static int ESSAI = 0;
 	public static int RANDOM_NUMBER = 0;
+	public  String mode = null;
+	public String modeName = null;
 
 
+	public void setModeName(String modeName) {
+		this.modeName = modeName;
+	}
 	Scanner sc = new Scanner(System.in);
 
 
 
 
 	public void  defenseur() {
+		
+		
+		 int DEF_COMBINAISON;
+		 int DEF_ESSAI;
+		 int DEF_NUMBER_TO_DETERMINE;
+		
 
-	}
-
-	public void duel() {
-
-	}
-
-
-
-	public void challenger() {	
 		propsReader = new PropertiesReader();
 		try {
 			propsReader.loadProperties("app.properties");
@@ -49,20 +51,38 @@ public class Mode {
 		//Recuperation de la combinaison 
 		COMBINAISON = Integer.parseInt(propsReader.get("gameplay.combinaion.number"));
 		//Recuperation du nombre d'essai 
-		ESSAI = Integer.parseInt(propsReader.get("gameplay.essaie.number"));	
+		ESSAI = Integer.parseInt(propsReader.get("gameplay.essaie.number"));
+		
 		//generer la combinaison secrète
 		NUMBER_TO_DETERMINE = this.generateRandomNumer(COMBINAISON);
-		System.out.println("voici la combinaison a determiner " + NUMBER_TO_DETERMINE);	
-		//Demande a l'utilisateurd de rentrer un mot de x chiffres	
-		System.out.println("Entrez une combinaison de " + COMBINAISON + " chiffres");
-		//System.out.println(this.win());
+		
+		//recuperation du mode 
+		 mode = propsReader.get("gameplay.mode.developpeur");
+		 
+			
+			if(this.isDevelopper(mode)==true) {
+				//Affichage de la combinaison à determiner
+				System.out.println("voici la combinaison a determiner " + NUMBER_TO_DETERMINE);	
+				
+			}
+			
+		
+		System.out.print(NUMBER_TO_DETERMINE);
+		int COMPUTER_ESSAI = this.generateRandomNumer(COMBINAISON);
+	
+		
 
 		String nbToDetermine = Integer.toString(NUMBER_TO_DETERMINE);
+		String computerProp = Integer.toString(COMPUTER_ESSAI);
 
 		for(int i = 1; i <= ESSAI; i++) {	
 
-			int nb = sc.nextInt();	       
-			String userEssai = Integer.toString(nb);		
+			//int nb = sc.nextInt();
+			System.out.println(computerProp);
+			//String userEssai = Integer.toString(nb);	
+			
+			
+			/*
 			boolean isWin = compareTwoString(userEssai, nbToDetermine);
 
 
@@ -76,6 +96,73 @@ public class Mode {
 				menu.displayMenuFin();
 				String finMenu =  sc.next();
 				menu.displaySelectedMenuFin(finMenu);
+
+			}
+			*/
+
+		}
+
+	}
+	
+
+	public void duel() {
+
+	}
+
+
+
+	public void challenger() {	
+		
+		
+		propsReader = new PropertiesReader();
+		try {
+			propsReader.loadProperties("app.properties");
+
+		} catch (IOException e) {
+			logger.error("Threw a IOException in " + this.getClass()+"::"+ this.getClass().getMethods() + " full stack trace follows:", e);
+		}	
+		//Recuperation de la combinaison 
+		COMBINAISON = Integer.parseInt(propsReader.get("gameplay.combinaion.number"));
+		
+		//recuperation du mode 
+		 mode = propsReader.get("gameplay.mode.developpeur");
+		
+		//Recuperation du nombre d'essai 
+		ESSAI = Integer.parseInt(propsReader.get("gameplay.essaie.number"));	
+		//generer la combinaison secrète
+		NUMBER_TO_DETERMINE = this.generateRandomNumer(COMBINAISON);
+		
+		
+		if(this.isDevelopper(mode)==true) {
+			//Affichage de la combinaison à determiner
+			System.out.println("voici la combinaison a determiner " + NUMBER_TO_DETERMINE);	
+			
+		}
+		
+		
+		//Demande a l'utilisateurd de rentrer un mot de x chiffres	
+		System.out.println("Entrez une combinaison de " + COMBINAISON + " chiffres");
+		//System.out.println(this.win());
+
+		String nbToDetermine = Integer.toString(NUMBER_TO_DETERMINE);
+
+		for(int i = 1; i <= ESSAI; i++) {	
+
+			int nb = sc.nextInt();	       
+			String userEssai = Integer.toString(nb);		
+			boolean isWin = compareTwoString(userEssai, nbToDetermine);
+
+			if((ESSAI-i) > 0 && !isWin) {
+				System.out.println("Votre combinaison n'est pas gagnante il vous reste " + (ESSAI-i) + " essai(s)" );
+
+			}
+			else {
+				System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
+				menu = new Menu();
+				menu.displayMenuFin();
+				int finMenu =  sc.nextInt();
+				this.setModeName("challenger");
+				menu.displaySelectedMenuFin(finMenu,"challenger");
 
 			}
 
@@ -99,6 +186,13 @@ public class Mode {
 			win.add("=");		
 		}
 		return win;
+	}
+	
+	
+	
+	public String getModeName() {
+		return modeName;
+		
 	}
 
 
@@ -165,6 +259,22 @@ public class Mode {
 		return  RANDOM_NUMBER ;	
 	}
 
+	
+	
+	
+	public boolean isDevelopper(String value) {
+		
+		boolean dev = false;
+		
+		if(value.equals("true")) {
+			dev = true;
+			
+			
+		}
+		
+		
+		return dev;
+	}
 
 
 
@@ -183,7 +293,6 @@ public class Mode {
 
 
 	}
-
 
 
 }
