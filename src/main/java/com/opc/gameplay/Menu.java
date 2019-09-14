@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Menu {
 	
-	public Mode modeDeJeu = new Mode();;
+	public Mode modeDeJeu = new Mode();
 	
 
 	 public void displayAvaillableMenu() {
@@ -16,6 +16,7 @@ public class Menu {
 	        System.out.println("Tapez 1 - Pour le Mode Chalengeur");
 	        System.out.println("Tapez 2 - Pour le mode Defenseur");
 	        System.out.println("Tapez 3 - Pour le mode Duel");
+	        System.out.println("Tapez 4 - Pour quitter");
 	        System.out.println("Entrez votre reponse ici");
 	    }
 	 
@@ -57,17 +58,22 @@ public class Menu {
 	       
 	    }
 	    public void displaySelectedMenuFin(int finMenu, String mode) {
-	    	 switch (finMenu) {
+	    	  switch (finMenu) {
 	            case 5:
-	                System.out.println("Vous avez choisi de partir");
-	                 modeDeJeu.quitter();
+	                System.out.println("Vous avez choisi de partir"); 
+	                //Runtime.getRuntime().exit(0);
+	               //System.exit(0);
+	                this.closeMenu();
+	                
 	                break;
 	            case 6:
 	                System.out.println("Vous avez choisi de Rejouer");
-	                if(modeDeJeu.getModeName()=="chalenger") {
+	                if(mode=="Challenger") {
 	                	modeDeJeu.challenger();
-	                }else if (modeDeJeu.getModeName()=="defenseur") {
+	                }else if (mode=="defenseur") {
 	                	modeDeJeu.defenseur();
+	                }else if (mode=="duel") {
+	                	modeDeJeu.duel();
 	                }
 	                
 	                break;
@@ -77,7 +83,7 @@ public class Menu {
 	                break;
 	            default:
 	                System.out.println("Vous n'avez Pas choisi une option");
-	                this.closeMenu();
+	                this.displayAvaillableMenu();
 	                break;
 	        }
 	    }
@@ -101,8 +107,8 @@ public class Menu {
 	    }
 	    
 	    public void closeMenu() {
-	    	
 	      System.out.println("BYE  BYE");
+	      System.exit(0);
 	      
 		        
 	    	
