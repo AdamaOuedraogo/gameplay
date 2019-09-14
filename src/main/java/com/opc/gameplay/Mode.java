@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -161,12 +162,17 @@ public class Mode {
 
 		//Demande a l'utilisateurd de rentrer x chiffres	
 		System.out.println("Entrez une combinaison de " + COMBINAISON + " chiffres");
-		
-		int nb = sc.nextInt();	       
-		String userEssai = Integer.toString(nb);
-		
 		for(int i = 1; i <= ESSAI; i++) {
-		
+			int nb = 0;
+			
+			try {
+				 nb = sc.nextInt();	 
+				
+			} catch (InputMismatchException e) {
+				System.out.println("Vous devez entrer un seulement un entier.");
+			}
+		      
+			String userEssai = Integer.toString(nb);
 
 
 				if(nb != (int)nb || userEssai.isEmpty() || userEssai.length() != nbToDetermine.length()) {
