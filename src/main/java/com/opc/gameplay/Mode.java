@@ -28,6 +28,7 @@ public class Mode {
 
 
 
+
 	public void setModeName(String modeName) {
 		this.modeName = modeName;
 	}
@@ -56,67 +57,61 @@ public class Mode {
 		//generer la combinaison secrète
 		NUMBER_TO_DETERMINE = this.generateRandomNumer(COMBINAISON);
 
+		/*
 
 		if(this.isDevelopper(mode)==true) {
 			//Affichage de la combinaison à determiner
 			System.out.println("voici la combinaison a determiner " + NUMBER_TO_DETERMINE);	
 
 		}
+		 */
 
 
 
+		//Debut du jeux
 
-
-		String nbToDetermine = Integer.toString(NUMBER_TO_DETERMINE);
+		String iAProp = Integer.toString(NUMBER_TO_DETERMINE);
 
 		for(int i = 1; i <= ESSAI; i++) {
 
 
 			//Demande a l'utilisateurd de rentrer x chiffres	
-			System.out.println("Entrez une combinaison de " + COMBINAISON + " chiffres");
+			System.out.println("propositition de L'IA " );
+			System.out.print(NUMBER_TO_DETERMINE + "\n");
+			
+			System.out.println("Evaluez le resultat de L'IA" );
 
-			int nb = sc.nextInt();	       
-			String userEssai = Integer.toString(nb);
-
-			if(userEssai.length() != nbToDetermine.length()) {
-				System.out.println("vous n'avez pas saisi un mot de " + nbToDetermine.length() + " chiffre(s)");
-
-
-			}else if(userEssai.isEmpty()) {
-				System.out.println("vous n'avez rien saisi, veuillez saisir un entier de " + nbToDetermine.length() + " chiffre(s)");
+			String defModeProp= sc.next();	
 
 
 
-			}else if(nb != (int)nb){
-				System.out.println("Vous n'avez pas saisi un entier, saissez un entier");
+			boolean isWin = compareStringAngChar(defModeProp, iAProp);
 
-			}else {
 
-				boolean isWin = compareTwoString(userEssai, nbToDetermine);
-
-				if((ESSAI-i) > 0 && !isWin) {
-					System.out.println("Votre combinaison n'est pas gagnante il vous reste " + (ESSAI-i) + " essai(s)" );
-
-				}
-				else {
-					System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
-					menu = new Menu();
-					menu.displayMenuFin();
-					int finMenu =  sc.nextInt();
-
-					menu.displaySelectedMenuFin(finMenu,"challenger");
-
-				}
-
+			if((ESSAI-i) > 0 && !isWin) {
+				System.out.println("Votre combinaison n'est pas gagnante il vous reste " + (ESSAI-i) + " essai(s)" );
 
 			}
+			else {
+				System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
+				menu = new Menu();
+				menu.displayMenuFin();
+				this.setModeName("defenseur");
+				int finMenu =  sc.nextInt();
 
+				menu.displaySelectedMenuFin(finMenu,"defenseur");
+
+			}
 
 
 		}
 
 
+
 	}
+
+
+
 
 
 	public void duel() {
@@ -164,40 +159,39 @@ public class Mode {
 		System.out.println("Entrez une combinaison de " + COMBINAISON + " chiffres");
 		for(int i = 1; i <= ESSAI; i++) {
 			int nb = 0;
-			
+
 			try {
-				 nb = sc.nextInt();	 
-				
+				nb = sc.nextInt();	 
+
 			} catch (InputMismatchException e) {
 				System.out.println("Vous devez entrer un seulement un entier.");
 			}
-		      
+
 			String userEssai = Integer.toString(nb);
 
 
-				if(nb != (int)nb || userEssai.isEmpty() || userEssai.length() != nbToDetermine.length()) {
-					System.out.println("vous n'avez pas saisi un mot de " + nbToDetermine.length() + " chiffre(s)");
-		
-		
-				}else {
+			if(nb != (int)nb || userEssai.isEmpty() || userEssai.length() != nbToDetermine.length()) {
+				System.out.println("vous n'avez pas saisi un mot de " + nbToDetermine.length() + " chiffre(s)");
 
-		
 
-					boolean isWin = compareTwoString(userEssai, nbToDetermine);
-	
-					if((ESSAI-i) > 0 && !isWin) {
-						System.out.println("Votre combinaison n'est pas gagnante il vous reste " + (ESSAI-i) + " essai(s)" );
-	
-					}
-					else {
-						System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
-						menu = new Menu();
-						menu.displayMenuFin();
-						this.setModeName("Challenger");
-						int finMenu =  sc.nextInt();
-						menu.displaySelectedMenuFin(finMenu,"Challenger");
-	
-					}
+			}else {
+
+
+				boolean isWin = compareTwoString(userEssai, nbToDetermine);
+
+				if((ESSAI-i) > 0 && !isWin) {
+					System.out.println("Votre combinaison n'est pas gagnante il vous reste " + (ESSAI-i) + " essai(s)" );
+
+				}
+				else {
+					System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
+					menu = new Menu();
+					menu.displayMenuFin();
+					this.setModeName("Challenger");
+					int finMenu =  sc.nextInt();
+					menu.displaySelectedMenuFin(finMenu,"Challenger");
+
+				}
 
 			}
 		}
@@ -214,119 +208,191 @@ public class Mode {
 
 
 
-public ArrayList<String> win(){
-	ArrayList<String> win = new ArrayList<>();
-	for(int i = 1; i <=COMBINAISON; i++) {
+	public ArrayList<String> win(){
+		ArrayList<String> win = new ArrayList<>();
+		for(int i = 1; i <=COMBINAISON; i++) {
 
-		win.add("=");		
+			win.add("=");		
+		}
+		return win;
 	}
-	return win;
-}
 
 
 
-public String getModeName() {
-	return modeName;
+	public String getModeName() {
+		return modeName;
 
-}
-
-
+	}
 
 
-public boolean compareTwoString(String s1, String s2) {
 
-	boolean isWin = false;
-	ArrayList<String> temp = new ArrayList<>();
 
-	for (int i = 0; i < s1.length(); i++) {	
 
-		if(s1.charAt(i) == s2.charAt(i)) {
 
-			//System.out.println(s1.charAt(i) + " est identique à " + s2.charAt(i));
-			temp.add("=");
+	public boolean compareStringAngChar(String s1, String s2) {
+		boolean isWin = false;
+		ArrayList<Integer> temp = new ArrayList<>();
+		ArrayList<String> result = new ArrayList<>();
 
-		}else if (s1.charAt(i) > s2.charAt(i)) {
-			temp.add("+");
-			//System.out.println(s1.charAt(i) + " est superieur à " + s2.charAt(i));
 
-		}else if (s1.charAt(i) < s2.charAt(i)) {
-			temp.add("-");
-			//System.out.println(s1.charAt(i) + " est inferieur à " + s2.charAt(i));
+		for (int i = 0; i < s1.length(); i++) {
+			if(s1.charAt(i)== '-' ) {
+
+                char value = s2.charAt(i);
+				
+				int nb = Integer.parseInt(String.valueOf(value)) - 1;
+
+				temp.add(nb);
+				result.add("-");
+
+			}else if (s1.charAt(i) == '+') {
+				
+				char value = s2.charAt(i);
+				int nb = Integer.parseInt(String.valueOf(value))   + 1;
+				temp.add(nb);
+				result.add("+");
+
+
+			}else if (s1.charAt(i) == '=') {
+				
+				char value = s2.charAt(i);
+				int nb = Integer.parseInt(String.valueOf(value));
+				temp.add(nb);
+				result.add("=");
+
+
+			}
+
+			
+
+
 
 		}
 
-	}
 
-	if(temp.equals(this.win())){
+		if(result.equals(this.win())){
 
-		System.out.println("Vous avez gagnez la partie");
-		isWin = true;
+			System.out.println("Vous avez gagnez la partie");
+			isWin = true;
 
-	}else {
-		System.out.println("Perdu");
-	}
-	System.out.println(temp);
-	return isWin;
-
-
-}
-
-
-
-
-
-public static int generateRandomNumer(int x) {
-	Random rand = new Random(); 
-	switch (x) {
-	case 1:
-		RANDOM_NUMBER  = rand.nextInt(10 - 1 + 1) + 1;
-		break;		
-	case 2:
-		RANDOM_NUMBER  = rand.nextInt(100 - 10 + 1) + 10;
-		break;		
-	case 3:	
-		RANDOM_NUMBER  = rand.nextInt(1000 - 100 + 1) + 100;
-		break;
-	case 4:
-		RANDOM_NUMBER  = rand.nextInt(10000 - 1000 + 1) + 1000;
-		break;		
-	}
-	return  RANDOM_NUMBER ;	
-}
-
-
-
-
-public boolean isDevelopper(String value) {
-
-	boolean dev = false;
-
-	if(value.equals("true")) {
-		dev = true;
+		}else {
+			System.out.println("Perdu"+"\n");
+		}
+		
+		
+		
+		for(int i = 0; i< result.size(); i++) {
+			System.out.print(temp.get(i)+" \n");
+			
+		}
+		for(int i = 0; i< result.size(); i++) {
+			System.out.print(result.get(i));
+			
+		}
+		return isWin;
 
 
 	}
 
 
-	return dev;
-}
+
+
+	public boolean compareTwoString(String s1, String s2) {
+
+		boolean isWin = false;
+		ArrayList<String> temp = new ArrayList<>();
+
+		for (int i = 0; i < s1.length(); i++) {	
+
+			if(s1.charAt(i) == s2.charAt(i)) {
+
+				//System.out.println(s1.charAt(i) + " est identique à " + s2.charAt(i));
+				temp.add("=");
+
+			}else if (s1.charAt(i) > s2.charAt(i)) {
+				temp.add("+");
+				//System.out.println(s1.charAt(i) + " est superieur à " + s2.charAt(i));
+
+			}else if (s1.charAt(i) < s2.charAt(i)) {
+				temp.add("-");
+				//System.out.println(s1.charAt(i) + " est inferieur à " + s2.charAt(i));
+
+			}
+
+
+
+		}
+
+		if(temp.equals(this.win())){
+
+			System.out.println("Vous avez gagnez la partie");
+			isWin = true;
+
+		}else {
+			System.out.println("Perdu");
+		}
+		System.out.println(temp);
+		return isWin;
+
+
+	}
+
+
+
+
+
+	public static int generateRandomNumer(int x) {
+		Random rand = new Random(); 
+		switch (x) {
+		case 1:
+			RANDOM_NUMBER  = rand.nextInt(10 - 1 + 1) + 1;
+			break;		
+		case 2:
+			RANDOM_NUMBER  = rand.nextInt(100 - 10 + 1) + 10;
+			break;		
+		case 3:	
+			RANDOM_NUMBER  = rand.nextInt(1000 - 100 + 1) + 100;
+			break;
+		case 4:
+			RANDOM_NUMBER  = rand.nextInt(10000 - 1000 + 1) + 1000;
+			break;		
+		}
+		return  RANDOM_NUMBER ;	
+	}
+
+
+
+
+	public boolean isDevelopper(String value) {
+
+		boolean dev = false;
+
+		if(value.equals("true")) {
+			dev = true;
+
+
+		}
+
+
+		return dev;
+	}
 
 
 
 
 
 
-public void  quitter() {
-	//Menu monMenu = new Menu();
-	//monMenu.closeMenu();
-	System.exit(0);
+	public void  quitter() {
+		//Menu monMenu = new Menu();
+		//monMenu.closeMenu();
+		System.exit(0);
 
-}
-public void  rejouer() {
-	Menu monMenu = new Menu();
-	monMenu.run();
+	}
+	public void  rejouer() {
+		Menu monMenu = new Menu();
+		monMenu.run();
 
-}
+	}
 
 
 }
