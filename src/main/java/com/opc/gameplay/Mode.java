@@ -25,6 +25,23 @@ public class Mode {
 	public static int RANDOM_NUMBER = 0;
 	public  String mode = null;
 	public String modeName = null;
+	ArrayList<Integer> valeurIA = new ArrayList<>();
+
+
+
+
+	public ArrayList<Integer> getValeurIA() {
+		return valeurIA;
+	}
+
+
+
+
+
+	public void setValeurIA(ArrayList<Integer> valeurIA) {
+		this.valeurIA = valeurIA;
+	}
+
 
 
 
@@ -71,25 +88,24 @@ public class Mode {
 		//Debut du jeux
 
 		String iAProp = Integer.toString(NUMBER_TO_DETERMINE);
+		System.out.println("propositition de L'IA " );
+		System.out.print(NUMBER_TO_DETERMINE + "\n");
 
 		for(int i = 1; i <= ESSAI; i++) {
 
 
 			//Demande a l'utilisateurd de rentrer x chiffres	
-			System.out.println("propositition de L'IA " );
-			System.out.print(NUMBER_TO_DETERMINE + "\n");
 			
 			System.out.println("Evaluez le resultat de L'IA" );
-
 			String defModeProp= sc.next();	
-
-
 
 			boolean isWin = compareStringAngChar(defModeProp, iAProp);
 
 
 			if((ESSAI-i) > 0 && !isWin) {
 				System.out.println("Votre combinaison n'est pas gagnante il vous reste " + (ESSAI-i) + " essai(s)" );
+				//System.out.println("Proposition de l'IA : "+ valeurIA);
+				//valeurIA.removeAll(valeurIA);
 
 			}
 			else {
@@ -201,13 +217,6 @@ public class Mode {
 	}
 
 
-
-
-
-
-
-
-
 	public ArrayList<String> win(){
 		ArrayList<String> win = new ArrayList<>();
 		for(int i = 1; i <=COMBINAISON; i++) {
@@ -231,44 +240,42 @@ public class Mode {
 
 	public boolean compareStringAngChar(String s1, String s2) {
 		boolean isWin = false;
-		ArrayList<Integer> temp = new ArrayList<>();
+		
 		ArrayList<String> result = new ArrayList<>();
 
 
 		for (int i = 0; i < s1.length(); i++) {
 			if(s1.charAt(i)== '-' ) {
 
-                char value = s2.charAt(i);
-				
-				int nb = Integer.parseInt(String.valueOf(value)) - 1;
+				String value = s2.charAt(i)+ "";
 
-				temp.add(nb);
+				int nb = Integer.parseInt(String.valueOf(value)) - 1;
+				
+				char newvalue = (nb + "").charAt(0);
+				
+				StringBuilder sb = new StringBuilder(s2);
+				sb.setCharAt(i, newvalue);
+				s2 =sb.toString();
 				result.add("-");
 
 			}else if (s1.charAt(i) == '+') {
-				
+
 				char value = s2.charAt(i);
 				int nb = Integer.parseInt(String.valueOf(value))   + 1;
-				temp.add(nb);
+				s2.replace(s2.charAt(i), (char) nb );
 				result.add("+");
 
 
 			}else if (s1.charAt(i) == '=') {
-				
+
 				char value = s2.charAt(i);
 				int nb = Integer.parseInt(String.valueOf(value));
-				temp.add(nb);
+				s2.replace(s2.charAt(i), (char) nb);
 				result.add("=");
-
 
 			}
 
-			
-
-
-
 		}
-
 
 		if(result.equals(this.win())){
 
@@ -276,19 +283,11 @@ public class Mode {
 			isWin = true;
 
 		}else {
-			System.out.println("Perdu"+"\n");
-		}
-		
-		
-		
-		for(int i = 0; i< result.size(); i++) {
-			System.out.print(temp.get(i)+" \n");
+			System.out.println("Essayez encore "+"\n");
 			
 		}
-		for(int i = 0; i< result.size(); i++) {
-			System.out.print(result.get(i));
-			
-		}
+		
+		System.out.println("Proposition de l'IA : " + s2);
 		return isWin;
 
 
@@ -370,11 +369,27 @@ public class Mode {
 		if(value.equals("true")) {
 			dev = true;
 
-
 		}
 
 
 		return dev;
+	}
+	
+	
+	
+	public Integer convertArrayListToInt(ArrayList<Integer> values) {
+		
+		Integer valueConvert = null;
+		
+		
+		for(int i = 0; i < values.size(); i++) {
+			
+			 valueConvert = values.get(i);
+			
+		}
+			
+		return valueConvert ;
+		
 	}
 
 
