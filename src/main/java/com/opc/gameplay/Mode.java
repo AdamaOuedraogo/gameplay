@@ -25,24 +25,16 @@ public class Mode {
 	public static int RANDOM_NUMBER = 0;
 	public  String mode = null;
 	public String modeName = null;
-	ArrayList<Integer> valeurIA = new ArrayList<>();
+	public String mode_def_IAProp;
+	public String new_def_IAProp;
+	public String mode_def_PlayerProp;
+	
+	//ArrayList<Integer> valeurIA = new ArrayList<>();
 
 
 
 
-	public ArrayList<Integer> getValeurIA() {
-		return valeurIA;
-	}
-
-
-
-
-
-	public void setValeurIA(ArrayList<Integer> valeurIA) {
-		this.valeurIA = valeurIA;
-	}
-
-
+	
 
 
 
@@ -87,9 +79,9 @@ public class Mode {
 
 		//Debut du jeux
 
-		String iAProp = Integer.toString(NUMBER_TO_DETERMINE);
-		System.out.println("propositition de L'IA " );
-		System.out.print(NUMBER_TO_DETERMINE + "\n");
+		String mode_def_IAProp = Integer.toString(NUMBER_TO_DETERMINE);
+		System.out.println("propositition de L'IA : "+ NUMBER_TO_DETERMINE );
+		//System.out.print(NUMBER_TO_DETERMINE + "\n");
 
 		for(int i = 1; i <= ESSAI; i++) {
 
@@ -97,9 +89,10 @@ public class Mode {
 			//Demande a l'utilisateurd de rentrer x chiffres	
 			
 			System.out.println("Evaluez le resultat de L'IA" );
-			String defModeProp= sc.next();	
+			String mode_def_PlayerProp= sc.next();	
 
-			boolean isWin = compareStringAngChar(defModeProp, iAProp);
+			boolean isWin = compareStringAngChar(mode_def_PlayerProp, mode_def_IAProp);
+			mode_def_IAProp =  new_def_IAProp;
 
 
 			if((ESSAI-i) > 0 && !isWin) {
@@ -109,7 +102,8 @@ public class Mode {
 
 			}
 			else {
-				System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
+				//System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
+				System.out.println("La partie est terminée, ");
 				menu = new Menu();
 				menu.displayMenuFin();
 				this.setModeName("defenseur");
@@ -246,31 +240,33 @@ public class Mode {
 
 		for (int i = 0; i < s1.length(); i++) {
 			if(s1.charAt(i)== '-' ) {
-
 				String value = s2.charAt(i)+ "";
-
-				int nb = Integer.parseInt(String.valueOf(value)) - 1;
-				
-				char newvalue = (nb + "").charAt(0);
-				
+				int nb = Integer.parseInt(String.valueOf(value)) - 1;	
+				char newValue = (nb + "").charAt(0);
 				StringBuilder sb = new StringBuilder(s2);
-				sb.setCharAt(i, newvalue);
+				sb.setCharAt(i, newValue);
 				s2 =sb.toString();
 				result.add("-");
 
 			}else if (s1.charAt(i) == '+') {
 
-				char value = s2.charAt(i);
+				String value = s2.charAt(i) + "";
 				int nb = Integer.parseInt(String.valueOf(value))   + 1;
-				s2.replace(s2.charAt(i), (char) nb );
+				char newValue = (nb + "").charAt(0);
+				StringBuilder sb = new StringBuilder(s2);
+				sb.setCharAt(i, newValue);
+				s2 = sb.toString();
 				result.add("+");
 
 
 			}else if (s1.charAt(i) == '=') {
 
-				char value = s2.charAt(i);
+				String value = s2.charAt(i) +"";
 				int nb = Integer.parseInt(String.valueOf(value));
-				s2.replace(s2.charAt(i), (char) nb);
+				char newValue = (nb + "").charAt(0);
+				StringBuilder sb = new StringBuilder(s2);
+				sb.setCharAt(i, newValue);
+				s2 = sb.toString();
 				result.add("=");
 
 			}
@@ -288,6 +284,7 @@ public class Mode {
 		}
 		
 		System.out.println("Proposition de l'IA : " + s2);
+		new_def_IAProp = s2;
 		return isWin;
 
 
