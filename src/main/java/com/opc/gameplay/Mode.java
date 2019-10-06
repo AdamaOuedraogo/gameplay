@@ -28,14 +28,9 @@ public class Mode {
 	public String mode_def_IAProp;
 	public String new_def_IAProp;
 	public String mode_def_PlayerProp;
+
 	
 	//ArrayList<Integer> valeurIA = new ArrayList<>();
-
-
-
-
-	
-
 
 
 	public void setModeName(String modeName) {
@@ -60,11 +55,12 @@ public class Mode {
 
 		//recuperation du mode 
 		mode = propsReader.get("gameplay.mode.developpeur");
+	
 
 		//Recuperation du nombre d'essai 
 		ESSAI = Integer.parseInt(propsReader.get("gameplay.essaie.number"));	
 		//generer la combinaison secrète
-		NUMBER_TO_DETERMINE = this.generateRandomNumer(COMBINAISON);
+		NUMBER_TO_DETERMINE = this.generateModeDefNumber();
 
 		/*
 
@@ -93,29 +89,36 @@ public class Mode {
 
 			boolean isWin = compareStringAngChar(mode_def_PlayerProp, mode_def_IAProp);
 			mode_def_IAProp =  new_def_IAProp;
+			
+			
+			if(mode_def_PlayerProp.isEmpty() || mode_def_PlayerProp.length() != mode_def_IAProp.length()) {
+				System.out.println("vous n'avez pas saisi un mot de " + mode_def_IAProp.length() + " chiffre(s)");
 
 
-			if((ESSAI-i) > 0 && !isWin) {
-				System.out.println("Votre combinaison n'est pas gagnante il vous reste " + (ESSAI-i) + " essai(s)" );
-				//System.out.println("Proposition de l'IA : "+ valeurIA);
-				//valeurIA.removeAll(valeurIA);
+			}else {
 
+	
+				if((ESSAI-i) > 0 && !isWin) {
+					System.out.println("Votre combinaison n'est pas gagnante il vous reste " + (ESSAI-i) + " essai(s)" );
+					//System.out.println("Proposition de l'IA : "+ valeurIA);
+					//valeurIA.removeAll(valeurIA);
+	
+				}
+				else {
+					//System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
+					System.out.println("La partie est terminée, ");
+					menu = new Menu();
+					menu.displayMenuFin();
+					this.setModeName("defenseur");
+					int finMenu =  sc.nextInt();
+	
+					menu.displaySelectedMenuFin(finMenu,"defenseur");
+	
+				}
+	
+	
 			}
-			else {
-				//System.out.println("La partie est terminée, le nombre recherchée est "+ NUMBER_TO_DETERMINE );
-				System.out.println("La partie est terminée, ");
-				menu = new Menu();
-				menu.displayMenuFin();
-				this.setModeName("defenseur");
-				int finMenu =  sc.nextInt();
-
-				menu.displaySelectedMenuFin(finMenu,"defenseur");
-
-			}
-
-
 		}
-
 
 
 	}
@@ -124,7 +127,66 @@ public class Mode {
 
 
 
-	public void duel() {
+	public void duel(int value) {
+		
+		if(value == 1) {
+			this.challenger();
+			propsReader = new PropertiesReader();
+			try {
+				propsReader.loadProperties("app.properties");
+
+			} catch (IOException e) {
+				logger.error("Threw a IOException in " + this.getClass()+"::"+ this.getClass().getMethods() + " full stack trace follows:", e);
+			}	
+			//Recuperation de la combinaison 
+			COMBINAISON = Integer.parseInt(propsReader.get("gameplay.combinaion.number"));
+
+			//recuperation du mode 
+			mode = propsReader.get("gameplay.mode.developpeur");
+
+			//Recuperation du nombre d'essai 
+			ESSAI = Integer.parseInt(propsReader.get("gameplay.essaie.number"));	
+			//generer la combinaison secrète
+			NUMBER_TO_DETERMINE = this.generateRandomNumer(COMBINAISON);
+
+	
+
+
+			
+			
+			
+		}else if(value == 2) {
+			
+			propsReader = new PropertiesReader();
+			try {
+				propsReader.loadProperties("app.properties");
+
+			} catch (IOException e) {
+				logger.error("Threw a IOException in " + this.getClass()+"::"+ this.getClass().getMethods() + " full stack trace follows:", e);
+			}	
+			//Recuperation de la combinaison 
+			COMBINAISON = Integer.parseInt(propsReader.get("gameplay.combinaion.number"));
+
+			//recuperation du mode 
+			mode = propsReader.get("gameplay.mode.developpeur");
+		
+
+			//Recuperation du nombre d'essai 
+			ESSAI = Integer.parseInt(propsReader.get("gameplay.essaie.number"));	
+			//generer la combinaison secrète
+			NUMBER_TO_DETERMINE = this.generateModeDefNumber();
+
+	
+
+			//Debut du jeux
+
+			String mode_def_IAProp = Integer.toString(NUMBER_TO_DETERMINE);
+			System.out.println("propositition de L'IA : "+ NUMBER_TO_DETERMINE );
+			//System.out.print(NUMBER_TO_DETERMINE + "\n");
+			
+		}
+			
+
 
 	}
 
@@ -280,10 +342,11 @@ public class Mode {
 
 		}else {
 			System.out.println("Essayez encore "+"\n");
+			System.out.println("Proposition de l'IA : " + s2);
 			
 		}
 		
-		System.out.println("Proposition de l'IA : " + s2);
+		
 		new_def_IAProp = s2;
 		return isWin;
 
@@ -386,6 +449,30 @@ public class Mode {
 		}
 			
 		return valueConvert ;
+		
+	}
+	
+	
+	public int generateModeDefNumber() {
+		int Mode_Def_Number = 0;
+		if(COMBINAISON == 1) {
+			
+			Mode_Def_Number = 5;
+			
+		}else if(COMBINAISON ==2) {
+			Mode_Def_Number = 55;
+			
+		}else if(COMBINAISON == 3) {
+			Mode_Def_Number = 555;
+			
+		}else if(COMBINAISON == 4) {
+			Mode_Def_Number = 5555;
+			
+		}else {
+			System.out.println("La combinaison n'existe pas");;
+		}
+			
+		return Mode_Def_Number;
 		
 	}
 

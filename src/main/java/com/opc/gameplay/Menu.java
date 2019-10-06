@@ -8,7 +8,10 @@ import org.apache.logging.log4j.Logger;
 
 public class Menu {
 	
+	Scanner sc;
+	
 	public Mode modeDeJeu = new Mode();
+	
 	
 
 	 public void displayAvaillableMenu() {
@@ -40,6 +43,14 @@ public class Menu {
 	                break;
 	            case 3:
 	                System.out.println("Vous avez choisi Le mode de jeu  : Duel");
+	    	        
+	    	         if(this.sousMenuDuel()==1) {
+	    	        	 modeDeJeu.duel(1);
+	    	        	 
+	    	         }else if(this.sousMenuDuel()==2) {
+	    	        	 modeDeJeu.duel(2);
+	    	        	 
+	    	         }
 	                break;
 	            default:
 	                System.out.println("Vous n'avez pas choisi de Mode de jeu");
@@ -73,7 +84,7 @@ public class Menu {
 	                }else if (mode=="defenseur") {
 	                	modeDeJeu.defenseur();
 	                }else if (mode=="duel") {
-	                	modeDeJeu.duel();
+	                	modeDeJeu.duel(this.sousMenuDuel());
 	                }
 	                
 	                break;
@@ -90,7 +101,7 @@ public class Menu {
 
 	    public void run(){
 	        this.displayAvaillableMenu();
-	        Scanner sc = new Scanner(System.in);
+	         sc = new Scanner(System.in);
 	        int nb = sc.nextInt();
 	        this.displaySelectedMenu(nb);
 
@@ -113,6 +124,15 @@ public class Menu {
 		        
 	    	
 	    	
+	    }
+	    
+	    public int sousMenuDuel() {
+	    	System.out.println(" souhaitez vous commencez la partie ou laissez la main ?");
+            System.out.println("Tapez 1 - Pour commencer");
+ 	        System.out.println("Tapez 2 - Pour laisser la main");
+ 	       sc = new Scanner(System.in);
+	         int nb = sc.nextInt();
+	         return nb;
 	    }
 
 }
